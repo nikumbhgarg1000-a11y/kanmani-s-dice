@@ -28,6 +28,7 @@ body {
   100% {background-position:0% 50%}
 }
 
+/* Tap to begin overlay */
 #startOverlay {
   position: fixed;
   inset: 0;
@@ -104,6 +105,7 @@ body {
   to {opacity:1; transform:translateY(0)}
 }
 
+/* Floating hearts */
 .heart {
   position: absolute;
   bottom: -20px;
@@ -115,6 +117,7 @@ body {
   to { transform: translateY(-120vh) scale(1.5); opacity: 0; }
 }
 
+/* Popup */
 .popup {
   position: fixed;
   inset: 0;
@@ -131,7 +134,7 @@ body {
   padding: 26px;
   border-radius: 22px;
   color: #fff;
-  max-width: 420px;
+  max-width: 440px;
   text-align: center;
   animation: fadeIn .6s ease;
 }
@@ -146,6 +149,38 @@ body {
   0%{transform:rotate(0)}
   50%{transform:rotate(20deg)}
   100%{transform:rotate(0)}
+}
+
+/* Photos */
+.photo-row {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.photo-row img {
+  width: 90px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  opacity: 0;
+  animation: photoFade 1.2s ease forwards;
+}
+
+.photo-row img:nth-child(1){animation-delay:.3s}
+.photo-row img:nth-child(2){animation-delay:.6s}
+.photo-row img:nth-child(3){animation-delay:.9s}
+.photo-row img:nth-child(4){animation-delay:1.2s}
+.photo-row img:nth-child(5){animation-delay:1.5s}
+.photo-row img:nth-child(6){animation-delay:1.8s}
+.photo-row img:nth-child(7){animation-delay:2.1s}
+
+@keyframes photoFade {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .close-btn {
@@ -166,6 +201,7 @@ body {
   <div class="startCard">Tap to begin 💗</div>
 </div>
 
+<!-- MUSIC (original filename kept) -->
 <audio id="bgMusic" src="Glimpse of Us X La La Land.mp3" loop></audio>
 
 <div class="container">
@@ -178,6 +214,7 @@ body {
 <div id="popup" class="popup">
   <div class="popup-content">
     <div class="lock">🔐➡️🔓</div>
+
     <p>
       hey Kanmani heres a guy speaking who dissapoints u now and then and make ur heart hurt.
       He do loves u too much and always wants to make it upto u.
@@ -186,6 +223,17 @@ body {
       i see the inner u and i love u.<br><br>
       urs . heres a lock and u have the key within u which only u can unclock .
     </p>
+
+    <div class="photo-row">
+      <img src="pic1.jpg">
+      <img src="pic2.jpg">
+      <img src="pic3.jpg">
+      <img src="pic4.jpg">
+      <img src="pic5.jpg">
+      <img src="pic6.jpg">
+      <img src="pic7.jpg">
+    </div>
+
     <button class="close-btn" onclick="popup.style.display='none'">🤍</button>
   </div>
 </div>
