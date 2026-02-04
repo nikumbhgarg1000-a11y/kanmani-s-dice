@@ -28,7 +28,7 @@ body {
   100% {background-position:0% 50%}
 }
 
-/* Tap to begin overlay */
+/* Tap to begin */
 #startOverlay {
   position: fixed;
   inset: 0;
@@ -80,7 +80,6 @@ body {
   cursor: pointer;
   box-shadow: 0 20px 40px rgba(0,0,0,.3);
   transition: transform .6s ease;
-  user-select: none;
 }
 
 .dice.rolling { transform: rotate(360deg) scale(1.1); }
@@ -105,7 +104,7 @@ body {
   to {opacity:1; transform:translateY(0)}
 }
 
-/* Floating hearts */
+/* Hearts */
 .heart {
   position: absolute;
   bottom: -20px;
@@ -137,6 +136,16 @@ body {
   max-width: 440px;
   text-align: center;
   animation: fadeIn .6s ease;
+
+  /* 🔑 MOBILE FIX */
+  max-height: 85vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar */
+.popup-content::-webkit-scrollbar {
+  width: 0;
 }
 
 .lock {
@@ -183,6 +192,14 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* Mobile photo resize */
+@media (max-width: 480px) {
+  .photo-row img {
+    width: 80px;
+    height: 105px;
+  }
+}
+
 .close-btn {
   margin-top: 18px;
   padding: 10px 24px;
@@ -201,7 +218,6 @@ body {
   <div class="startCard">Tap to begin 💗</div>
 </div>
 
-<!-- MUSIC (original filename kept) -->
 <audio id="bgMusic" src="Glimpse of Us X La La Land.mp3" loop></audio>
 
 <div class="container">
