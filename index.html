@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Toss the Dice 💗</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
+      background-size: 400% 400%;
+      animation: dreamyBG 12s ease infinite;
+      overflow: hidden;
+    }
+
+    @keyframes dreamyBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .glow-name {
+      font-size: 28px;
+      font-weight: 500;
+      margin-bottom: 15px;
+      color: #fff;
+      text-shadow: 0 0 10px rgba(255,255,255,0.6), 0 0 20px rgba(255,182,193,0.8);
+      animation: glow 2.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+
+    .container {
+      text-align: center;
+      color: #fff;
+      padding: 20px;
+      max-width: 400px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .dice {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      transition: transform 0.6s ease;
+      user-select: none;
+    }
+
+    .dice.rolling {
+      transform: rotate(360deg) scale(1.1);
+    }
+
+    .instruction {
+      font-size: 18px;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    .result {
+      margin-top: 20px;
+      padding: 18px;
+      background: rgba(255,255,255,0.15);
+      border-radius: 16px;
+      backdrop-filter: blur(6px);
+      font-size: 16px;
+      line-height: 1.6;
+      animation: fadeIn 0.6s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 16px;
+      opacity: 0.8;
+      animation: floatUp 6s linear forwards;
+    }
+
+    @keyframes floatUp {
+      to {
+        transform: translateY(-120vh) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .popup {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      z-index: 10;
+    }
+
+    .popup-content {
+      background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+      color: #fff;
+      padding: 25px;
+      border-radius: 20px;
+      max-width: 420px;
+      text-align: center;
+      box-shadow: 0 30px 60px rgba(0,0,0,0.35);
+      animation: fadeIn 0.6s ease;
+      position: relative;
+    }
+
+    .lock {
+      font-size: 36px;
+      margin-bottom: 10px;
+      animation: unlock 2s ease forwards;
+    }
+
+    @keyframes unlock {
+      0% { transform: rotate(0deg); }
+      50% { transform: rotate(20deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    .close-btn {
+      margin-top: 20px;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 20px;
+      background: #fff;
+      color: #a18cd1;
+      font-size: 14px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1 class="glow-name">Kanmani 🤍</h1>
+    <div id="dice" class="dice">🎲</div>
+    <div class="instruction">Toss the dice</div>
+    <div id="result" class="result" style="display:none"></div>
+  </div>
+
+  <!-- Apology Popup -->
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <div class="lock">🔐➡️🔓</div>
+      <h2>For You, Kanmani 🤍</h2>
+      <p>
+        hey Kanmani heres a guy speaking who dissapoints u now and then and make ur heart hurt.
+        He do loves u too much and always wants to make it upto u.
+        to make u feel better and happier he tries to do things differently and will keep on doing so.
+        I know Your heart chooses kindness everytime even when it doesnt seem true on the outside.
+        i see the inner u and i love u.<br><br>
+        urs . heres a lock and u have the key within u which only u can unclock .
+      </p>
+      <button class="close-btn" onclick="closePopup()">🤍</button>
+    </div>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="bgMusic" src="Glimpse of Us X La La Land.mp3" autoplay loop></audio>
+
+  <script>
+    const dice = document.getElementById('dice');
+    const resultBox = document.getElementById('result');
+    const popup = document.getElementById('popup');
+
+    let rollCount = 0;
+
+    const outcomes = {
+      1: "You love in ways I didn’t know I needed",
+      2: "Your presence quiets my chaos",
+      3: "You make ordinary moments feel enough",
+      4: "You feel like home, not a place",
+      5: "You stay real, even when it would be easier not to.",
+      6: "Your heart stays soft"
+    };
+
+    const colors = ['#ff6f91', '#ff9671', '#ffc75f', '#f9f871', '#cdb4db', '#a2d2ff'];
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = '💗';
+      heart.style.left = Math.random() * 100 + 'vw';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 6000);
+    }
+
+    setInterval(createHeart, 900);
+
+    dice.addEventListener('click', () => {
+      dice.classList.add('rolling');
+      resultBox.style.display = 'none';
+
+      setTimeout(() => {
+        const number = Math.floor(Math.random() * 6) + 1;
+        dice.textContent = number;
+        dice.style.background = colors[number - 1];
+
+        resultBox.innerHTML = `<strong>You rolled ${number} 💗</strong><br>${outcomes[number]}`;
+        resultBox.style.display = 'block';
+
+        dice.classList.remove('rolling');
+
+        rollCount++;
+        if (rollCount === 2) {
+          setTimeout(() => popup.style.display = 'flex', 1200);
+        }
+      }, 600);
+    });
+
+    function closePopup() {
+      popup.style.display = 'none';
+    }
+  </script>
+
+</body>
+</html>
