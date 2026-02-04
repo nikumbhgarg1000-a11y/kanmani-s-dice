@@ -187,8 +187,8 @@
   </div>
 
   <!-- Background Music -->
-  <audio id="bgMusic" src="Glimpse of Us X La La Land.mp3" autoplay loop></audio>
-
+  <audio id="bgMusic" src="Glimpse of Us X La La Land.mp3" loop></audio>
+  
   <script>
     const dice = document.getElementById('dice');
     const resultBox = document.getElementById('result');
@@ -219,6 +219,8 @@
     setInterval(createHeart, 900);
 
     dice.addEventListener('click', () => {
+      const music = document.getElementById('bgMusic');
+if (music.paused) music.play();
       dice.classList.add('rolling');
       resultBox.style.display = 'none';
 
